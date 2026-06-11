@@ -1,3 +1,11 @@
+"""
+live_nav_fetch.py
+Day 1 Capstone Project - Live Mutual Fund NAV Ingestion
+
+This script connects to the AMFI open REST API (mfapi.in) to ingest daily historical Net Asset Value (NAV) 
+records for selected target schemes, applying retry backoffs and rate limiting to avoid server connection limits.
+"""
+
 import os
 import requests
 import pandas as pd
@@ -19,6 +27,18 @@ raw_data_dir = os.path.join(base_dir, "data", "raw")
 os.makedirs(raw_data_dir, exist_ok=True)
 
 def fetch_and_save_nav(scheme_code, name, retries=3, delay=3):
+    """
+    Fetches daily NAV records for a given AMFI scheme code and saves them to a CSV file.
+    
+    Parameters:
+    - scheme_code (str): The unique AMFI identifier for the mutual fund scheme.
+    - name (str): Fallback human-readable scheme name.
+    - retries (int): Maximum number of retry attempts in case of API failure.
+    - delay (int): Time gap in seconds between retries.
+    
+    Returns:
+    - bool: True if the ingestion succeeded, False otherwise.
+    """
     url = f"https://api.mfapi.in/mf/{scheme_code}"
     for attempt in range(1, retries + 1):
         print(f"Fetching NAV for {name} (Code: {scheme_code}), Attempt {attempt}/{retries}...")
