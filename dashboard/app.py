@@ -66,7 +66,7 @@ st.markdown("""
         letter-spacing: 0.5px;
     }
 </style>
-""", unsafe_allowed_html=True)
+""", unsafe_allow_html=True)
 
 # -------------------------------------------------------------
 # Database Helper functions (Cached)
@@ -162,8 +162,8 @@ selected_page = st.sidebar.radio("Navigate Pages", pages)
 # Page 1: Executive & Industry Overview
 # -------------------------------------------------------------
 if selected_page == "🏠 Executive & Industry Overview":
-    st.markdown("<div class='main-title'>Mutual Fund Industry & Platform Overview</div>", unsafe_allowed_html=True)
-    st.markdown("<div class='subtitle'>End-to-End Ingestion, Relational Schema Analytics, and Business Intelligence KPI Overview</div>", unsafe_allowed_html=True)
+    st.markdown("<div class='main-title'>Mutual Fund Industry & Platform Overview</div>", unsafe_allow_html=True)
+    st.markdown("<div class='subtitle'>End-to-End Ingestion, Relational Schema Analytics, and Business Intelligence KPI Overview</div>", unsafe_allow_html=True)
     
     # KPIs row
     kpi_col1, kpi_col2, kpi_col3, kpi_col4 = st.columns(4)
@@ -182,7 +182,7 @@ if selected_page == "🏠 Executive & Industry Overview":
             <div class='metric-label'>Latest Industry AUM</div>
             <div class='metric-value'>{aum_val}</div>
         </div>
-        """, unsafe_allowed_html=True)
+        """, unsafe_allow_html=True)
         
     with kpi_col2:
         st.markdown(f"""
@@ -190,7 +190,7 @@ if selected_page == "🏠 Executive & Industry Overview":
             <div class='metric-label'>Monthly SIP Inflows</div>
             <div class='metric-value'>{sip_val}</div>
         </div>
-        """, unsafe_allowed_html=True)
+        """, unsafe_allow_html=True)
         
     with kpi_col3:
         st.markdown(f"""
@@ -198,7 +198,7 @@ if selected_page == "🏠 Executive & Industry Overview":
             <div class='metric-label'>Active SIP Accounts</div>
             <div class='metric-value'>{folio_val}</div>
         </div>
-        """, unsafe_allowed_html=True)
+        """, unsafe_allow_html=True)
         
     with kpi_col4:
         st.markdown(f"""
@@ -206,7 +206,7 @@ if selected_page == "🏠 Executive & Industry Overview":
             <div class='metric-label'>Tracked Schemes</div>
             <div class='metric-value'>{len(df_fund)}</div>
         </div>
-        """, unsafe_allowed_html=True)
+        """, unsafe_allow_html=True)
         
     # Main figures row
     fig_col1, fig_col2 = st.columns(2)
@@ -247,8 +247,8 @@ if selected_page == "🏠 Executive & Industry Overview":
 # Page 2: Fund Performance & Scorecard
 # -------------------------------------------------------------
 elif selected_page == "📈 Fund Performance & Scorecard":
-    st.markdown("<div class='main-title'>Mutual Fund Performance Analytics</div>", unsafe_allowed_html=True)
-    st.markdown("<div class='subtitle'>Evaluate schemes based on returns, volatility, Sharpe, Sortino ratios, Alpha, Beta, and composite scores</div>", unsafe_allowed_html=True)
+    st.markdown("<div class='main-title'>Mutual Fund Performance Analytics</div>", unsafe_allow_html=True)
+    st.markdown("<div class='subtitle'>Evaluate schemes based on returns, volatility, Sharpe, Sortino ratios, Alpha, Beta, and composite scores</div>", unsafe_allow_html=True)
     
     # Filter controls
     st.markdown("### Filter Controls")
@@ -368,8 +368,8 @@ elif selected_page == "📈 Fund Performance & Scorecard":
 # Page 3: Investor Demographics & Cohorts
 # -------------------------------------------------------------
 elif selected_page == "👥 Investor Demographics & Cohorts":
-    st.markdown("<div class='main-title'>Investor Analytics & Cohort Retentions</div>", unsafe_allowed_html=True)
-    st.markdown("<div class='subtitle'>Demographic breakdown of 5,000 retail accounts, state contributions, and cohort signups</div>", unsafe_allowed_html=True)
+    st.markdown("<div class='main-title'>Investor Analytics & Cohort Retentions</div>", unsafe_allow_html=True)
+    st.markdown("<div class='subtitle'>Demographic breakdown of 5,000 retail accounts, state contributions, and cohort signups</div>", unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
     
@@ -418,8 +418,8 @@ elif selected_page == "👥 Investor Demographics & Cohorts":
 # Page 4: Monte Carlo NAV Projection
 # -------------------------------------------------------------
 elif selected_page == "🎲 Monte Carlo NAV Projection":
-    st.markdown("<div class='main-title'>Monte Carlo NAV Growth Simulation</div>", unsafe_allowed_html=True)
-    st.markdown("<div class='subtitle'>Project mutual fund NAV values over a 5-year horizon based on Geometric Brownian Motion (GBM) with confidence intervals</div>", unsafe_allowed_html=True)
+    st.markdown("<div class='main-title'>Monte Carlo NAV Growth Simulation</div>", unsafe_allow_html=True)
+    st.markdown("<div class='subtitle'>Project mutual fund NAV values over a 5-year horizon based on Geometric Brownian Motion (GBM) with confidence intervals</div>", unsafe_allow_html=True)
     
     # Simulation input controls
     sim_col1, sim_col2, sim_col3 = st.columns(3)
@@ -511,8 +511,8 @@ elif selected_page == "🎲 Monte Carlo NAV Projection":
 # Page 5: Markowitz Portfolio Optimization
 # -------------------------------------------------------------
 elif selected_page == "🕸️ Markowitz Portfolio Optimization":
-    st.markdown("<div class='main-title'>Markowitz Mean-Variance Portfolio Optimization</div>", unsafe_allowed_html=True)
-    st.markdown("<div class='subtitle'>Build the Efficient Frontier using historical fund correlations and discover the Max Sharpe and Minimum Volatility allocations</div>", unsafe_allowed_html=True)
+    st.markdown("<div class='main-title'>Markowitz Mean-Variance Portfolio Optimization</div>", unsafe_allow_html=True)
+    st.markdown("<div class='subtitle'>Build the Efficient Frontier using historical fund correlations and discover the Max Sharpe and Minimum Volatility allocations</div>", unsafe_allow_html=True)
     
     st.markdown("### Portfolio Asset Selection")
     st.info("Select exactly 5 funds from the list below to run the mean-variance optimization model:")
