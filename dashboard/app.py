@@ -288,9 +288,10 @@ elif selected_page == "📈 Fund Performance & Scorecard":
     with perf_col1:
         st.markdown("### Risk-Return Scatter Plot (3-Yr CAGR vs Volatility)")
         if not df_perf_merged.empty:
+            x_col = 'cagr_3yr_pct' if 'cagr_3yr_pct' in df_perf_merged.columns else 'return_3yr'
             fig_scatter = px.scatter(
                 df_perf_merged,
-                x='cagr_3yr_pct' if 'cagr_3yr_pct' in df_scorecard.columns else 'return_3yr',
+                x=x_col,
                 y='std_dev_ann_pct',
                 size='composite_score' if 'composite_score' in df_perf_merged.columns else None,
                 color='category',
@@ -641,38 +642,34 @@ elif selected_page == "🕸️ Markowitz Portfolio Optimization":
                     bgcolor="rgba(255, 255, 255, 0.8)"
                 )
             )
-            st.plotly_chart(fig_frontier, use_container_width=True)
+            # Layout with Efficient Frontier on left, and Allocation bar charts on right
+            front_col, alloc_col = st.columns([6, 4])
             
-            # Show Optimal Allocations Side by Side
-            opt_col1, opt_col2 = st.columns(2)
+            with front_col:
+                st.plotly_chart(fig_frontier, use_container_width=True)
             
-            with opt_col1:
-                st.markdown("#### 🌟 Maximum Sharpe Portfolio")
-                st.markdown(f"**Expected Annual Return**: {portfolio_returns[max_sharpe_idx]*100:.2f}%")
-                st.markdown(f"**Annual Volatility**: {portfolio_volatility[max_sharpe_idx]*100:.2f}%")
-                st.markdown(f"**Max Sharpe Ratio**: {sharpe_ratios[max_sharpe_idx]:.2f}")
-                
-                # Allocation DataFrame
+            with alloc_col:
+                st.markdown("#### 🌟 Max Sharpe Allocation")
                 df_alloc_sharpe = pd.DataFrame({
                     'Fund Name': df_returns_pivot.columns,
                     'Optimal Weight': best_sharpe_weights * 100
                 })
-                df_alloc_sharpe['Optimal Weight'] = df_alloc_sharpe['Optimal Weight'].map(lambda x: f"{x:.2f}%")
-                st.dataframe(df_alloc_sharpe, use_container_width=True)
+                fig_sharpe = px.bar(df_alloc_sharpe, x='Optimal Weight', y='Fund Name', orientation='h', color_discrete_sequence=['#414BEA'])
+                fig_sharpe.update_layout(yaxis={'categoryorder':'total ascending'}, height=200, margin=dict(l=0, r=0, t=0, b=0))
+                st.plotly_chart(fig_sharpe, use_container_width=True)
+                st.markdown(f"**Ret:** {portfolio_returns[max_sharpe_idx]*100:.2f}% | **Vol:** {portfolio_volatility[max_sharpe_idx]*100:.2f}% | **SR:** {sharpe_ratios[max_sharpe_idx]:.2f}")
                 
-            with opt_col2:
-                st.markdown("#### 🛡️ Minimum Volatility Portfolio")
-                st.markdown(f"**Expected Annual Return**: {portfolio_returns[min_vol_idx]*100:.2f}%")
-                st.markdown(f"**Annual Volatility**: {portfolio_volatility[min_vol_idx]*100:.2f}%")
-                st.markdown(f"**Sharpe Ratio**: {sharpe_ratios[min_vol_idx]:.2f}")
+                st.markdown("---")
                 
-                # Allocation DataFrame
+                st.markdown("#### 🛡️ Min Volatility Allocation")
                 df_alloc_vol = pd.DataFrame({
                     'Fund Name': df_returns_pivot.columns,
                     'Optimal Weight': min_vol_weights * 100
                 })
-                df_alloc_vol['Optimal Weight'] = df_alloc_vol['Optimal Weight'].map(lambda x: f"{x:.2f}%")
-                st.dataframe(df_alloc_vol, use_container_width=True)
+                fig_vol = px.bar(df_alloc_vol, x='Optimal Weight', y='Fund Name', orientation='h', color_discrete_sequence=['#F05537'])
+                fig_vol.update_layout(yaxis={'categoryorder':'total ascending'}, height=200, margin=dict(l=0, r=0, t=0, b=0))
+                st.plotly_chart(fig_vol, use_container_width=True)
+                st.markdown(f"**Ret:** {portfolio_returns[min_vol_idx]*100:.2f}% | **Vol:** {portfolio_volatility[min_vol_idx]*100:.2f}% | **SR:** {sharpe_ratios[min_vol_idx]:.2f}")
         else:
             st.error("Insufficient overlapping NAV history for selected portfolio assets.")
     else:
