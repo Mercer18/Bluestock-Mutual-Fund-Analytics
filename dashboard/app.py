@@ -277,7 +277,9 @@ elif selected_page == "📈 Fund Performance & Scorecard":
     if os.path.exists(scorecard_path):
         df_scorecard = pd.read_csv(scorecard_path)
         # Drop redundant scheme name/category to avoid suffixes
-        df_scorecard_subset = df_scorecard[['amfi_code', 'composite_score', 'rank']]
+        df_scorecard_subset = df_scorecard[['amfi_code', 'composite_score', 'rank']].copy()
+        df_scorecard_subset['amfi_code'] = df_scorecard_subset['amfi_code'].astype(str)
+        df_perf_merged['amfi_code'] = df_perf_merged['amfi_code'].astype(str)
         df_perf_merged = df_perf_merged.merge(df_scorecard_subset, on='amfi_code', how='left')
         
     # Columns grid
@@ -605,7 +607,8 @@ elif selected_page == "🕸️ Markowitz Portfolio Optimization":
                     colorbar=dict(title="Sharpe Ratio")
                 ),
                 text=[f"Sharpe: {sr:.2f}" for sr in sharpe_ratios],
-                name="Simulated Portfolios"
+                name="Simulated Portfolios",
+                showlegend=False
             ))
             
             # Highlight Optimal Portfolios
@@ -629,7 +632,14 @@ elif selected_page == "🕸️ Markowitz Portfolio Optimization":
                 title="Markowitz Efficient Frontier & Simulated Portfolios",
                 xaxis_title="Annualized Volatility (Risk)",
                 yaxis_title="Expected Annual Return",
-                height=500
+                height=500,
+                legend=dict(
+                    yanchor="top",
+                    y=0.99,
+                    xanchor="left",
+                    x=0.01,
+                    bgcolor="rgba(255, 255, 255, 0.8)"
+                )
             )
             st.plotly_chart(fig_frontier, use_container_width=True)
             
