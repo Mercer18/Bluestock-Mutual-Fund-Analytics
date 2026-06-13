@@ -87,12 +87,18 @@ pip install -r requirements.txt
 
 ### 2. Running the Master Execution Pipeline
 To run the entire end-to-end pipeline (fetching live API data, loading the database, calculating performance, computing risk factors, and auto-compiling the PDF report and PowerPoint presentation) with a single command:
-```bash
 python run_pipeline.py
 ```
 This coordinates the execution of all ingestion, analysis, and generation stages in sequence.
 
-### 3. Testing the Interactive Fund Recommender
+### 3. Running the Interactive Streamlit Web Dashboard
+To launch the alternative web dashboard containing interactive charts, KPIs, Monte Carlo projections, and portfolio optimization frontiers:
+```bash
+streamlit run dashboard/app.py
+```
+This will open the web application at `http://localhost:8501`.
+
+### 4. Testing the Interactive Fund Recommender
 Launch the command-line recommender system to get mutual fund suggestions matching your risk profile:
 ```bash
 python recommender.py
