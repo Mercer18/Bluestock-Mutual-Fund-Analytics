@@ -71,7 +71,10 @@ st.markdown("""
 # -------------------------------------------------------------
 # Database Helper functions (Cached)
 # -------------------------------------------------------------
-DB_PATH = r"x:\CODING\PROJECTS\InternshipWork\Bluestock\Capstone\data\db\bluestock_mf.db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CAPSTONE_DIR = os.path.dirname(BASE_DIR)
+
+DB_PATH = os.path.join(CAPSTONE_DIR, "data", "db", "bluestock_mf.db")
 
 @st.cache_data
 def get_connection_status():
@@ -273,7 +276,7 @@ elif selected_page == "📈 Fund Performance & Scorecard":
     df_perf_merged = filtered_funds.merge(df_performance, on='amfi_code')
     
     # Merge with composite scorecard (which is generated in reports/fund_scorecard.csv or computed)
-    scorecard_path = r"x:\CODING\PROJECTS\InternshipWork\Bluestock\Capstone\fund_scorecard.csv"
+    scorecard_path = os.path.join(CAPSTONE_DIR, "fund_scorecard.csv")
     if os.path.exists(scorecard_path):
         df_scorecard = pd.read_csv(scorecard_path)
         # Drop redundant scheme name/category to avoid suffixes
@@ -331,7 +334,7 @@ elif selected_page == "📈 Fund Performance & Scorecard":
         df_nav_scheme = df_nav[df_nav['amfi_code'] == sel_amfi].sort_values('date')
         
         # Load benchmark closing data
-        benchmark_path = r"x:\CODING\PROJECTS\InternshipWork\Bluestock\Capstone\data\processed\10_benchmark_indices_clean.csv"
+        benchmark_path = os.path.join(CAPSTONE_DIR, "data", "processed", "10_benchmark_indices_clean.csv")
         if os.path.exists(benchmark_path):
             df_bench = pd.read_csv(benchmark_path)
             df_bench['date'] = pd.to_datetime(df_bench['date'])
@@ -407,7 +410,7 @@ elif selected_page == "👥 Investor Demographics & Cohorts":
     # Cohorts Analysis Report
     st.markdown("---")
     st.markdown("### Investor Cohort Summary Table")
-    cohort_path = r"x:\CODING\PROJECTS\InternshipWork\Bluestock\Capstone\reports\cohort_analysis_report.csv"
+    cohort_path = os.path.join(CAPSTONE_DIR, "reports", "cohort_analysis_report.csv")
     if os.path.exists(cohort_path):
         df_cohort = pd.read_csv(cohort_path)
         # Format currency
